@@ -23,7 +23,7 @@ class AuthController extends Controller
     $attempt = $this->container->sentinel->authenticate($credentials);
 
     if (!$attempt) {
-      $this->flash->addMessage('error', "There was an error with your login. Please check your credentials.");
+      $this->flash->addMessage('erreur', "Une erreur s'est produite lors de votre connexion. Veuillez vérifier vos informations d'identification.");
       return $response->withRedirect($this->router->pathFor('user.login'));
     } else {
       $this->container->sentinel->login($attempt);
@@ -67,7 +67,7 @@ class AuthController extends Controller
     $role = $this->container->sentinel->findRoleByName('User');
     $role->users()->attach($user);
 
-    $this->flash->addMessage('success', 'You have been successfully registered. Login now.');
+    $this->flash->addMessage('succès', 'Vous avez bien été enregistré. Connecte-toi maintenant.');
     return $response->withRedirect($this->router->pathFor('user.login'));
   }
 }

@@ -12,14 +12,14 @@ class UserActionController extends Controller
   public function deleteUser($request, $response, $arguments)
   {
     if ($arguments['uid'] === $this->container->sentinel->getUser()->username) {
-      $this->flash->addMessage('error', "You can't delete yourself.");
+      $this->flash->addMessage('erreur', "Vous ne pouvez pas vous supprimer.");
       return $response->withRedirect($this->router->pathFor('admin.index'));
     }
 
     $user = User::where('username', $arguments['uid']);
     $user->delete();
 
-    $this->flash->addMessage('success', "User has been deleted.");
+    $this->flash->addMessage('succès', "User à bien été supprimé.");
     return $response->withRedirect($this->router->pathFor('admin.index'));
   }
 
@@ -65,7 +65,7 @@ class UserActionController extends Controller
     // update user data
     $this->container->sentinel->update($getCurrentUserData, $credentials);
 
-    $this->flash->addMessage('success', "User details have been changed.");
+    $this->flash->addMessage('succès', "Les détails ont bien été changés.");
     return $response->withRedirect($this->router->pathFor('admin.user.edit', [ 'uid' => $arguments['uid'] ]));
   }
 }

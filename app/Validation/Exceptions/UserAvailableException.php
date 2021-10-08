@@ -8,7 +8,7 @@ class UserAvailableException extends ValidationException
 {
   public static $defaultTemplates = [
     self::MODE_DEFAULT => [
-      self::STANDARD => 'Username already in use',
+      self::STANDARD => 'Username déjà utilisé',
     ],
   ];
 }
