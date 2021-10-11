@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 class Controller
 {
+  // initialiser le controlleur 
   protected $container;
 
   public function __construct($container)

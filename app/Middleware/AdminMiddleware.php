@@ -4,6 +4,7 @@ namespace App\Middleware;
 
 class AdminMiddleware extends Middleware
 {
+  // paramètre de vérification du rôle, si non admin alors, retour à la page d'accueil
   public function __invoke($request, $response, $next)
   {
     if ($this->container->sentinel->getUser()) {

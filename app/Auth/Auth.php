@@ -5,6 +5,7 @@ namespace App\Auth;
 use \App\Models\User;
 use \App\Models\Roles;
 
+// fonction pour s'authentifier
 class Auth
 {
   protected $container;

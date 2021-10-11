@@ -8,6 +8,7 @@ use Slim\Views\Twig as View;
 
 class AdminController extends Controller
 {
+  // fonction pour l'administrateur
   public function index($request, $response)
   {
     $users = User::all();
@@ -22,4 +23,5 @@ class AdminController extends Controller
 
     return $this->view->render($response, 'admin/home.twig');
   }
+  
 }

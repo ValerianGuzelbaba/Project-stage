@@ -3,13 +3,13 @@ $container = $app->getContainer();
 
 use \Symfony\Component\HttpFoundation\Request;
 
-// Setup Eloquent
+// on initialise Eloquent
 $capsule = new \Illuminate\Database\Capsule\Manager;
 $capsule->addConnection($container['settings']['db']);
 $capsule->setAsGlobal();
 $capsule->bootEloquent();
 
-// Define Twig View
+// on met en place Twig pour les vues
 $container['view'] = function($container) {
   $view = new \Slim\Views\Twig(__DIR__ . '/../resources/views', [
     'cache' => false
@@ -32,17 +32,17 @@ $container['view'] = function($container) {
   return $view;
 };
 
-// Shortcut Eloquent
+// raccourci pour utiliser Eloquent
 $container['db'] = function($container) use ($capsule) {
   return $capsule;
 };
 
-// Flash Messages
+// message flash lors de validation ou d'erreurs
 $container['flash'] = function($container) {
   return new \Slim\Flash\Messages;
 };
 
-// CSRF Protection
+// protection CSRF 
 $container['csrf'] = function($container) {
   return new \Slim\Csrf\Guard;
 };
@@ -55,20 +55,20 @@ $container['dispatcher'] = function ($container) {
     return new Illuminate\Events\Dispatcher;
 };
 
-// Add Sentinel
+// on ajoute sentinel
 $container['sentinel'] = function ($container) {
   $sentinel = (new \Cartalyst\Sentinel\Native\Facades\Sentinel())->getSentinel();
   $sentinel->setUserRepository(
     new \Cartalyst\Sentinel\Users\IlluminateUserRepository(
       $container['hasher'],
       $container['dispatcher'],
-      App\Models\User::class // This is the proper model name for this case
+      App\Models\User::class // nom de modèle sentinel
     )
   );
 
   return $sentinel;
 };
-// Validator
+// validator
 $container['validator'] = function($container) {
   return new App\Validation\Validator;
 };
@@ -77,7 +77,7 @@ $container['auth'] = function($container) {
   return new App\Auth\Auth($container);
 };
 
-// Controller
+// controller
 $container['HomeController'] = function($container) {
   return new \App\Controllers\HomeController($container);
 };

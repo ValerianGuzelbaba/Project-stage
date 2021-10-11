@@ -1,5 +1,6 @@
 <?php
 
+//paramètres de connexion pour entrer dans la base de données
 return [
   'settings' => [
     'determineRouteBeforeAppMiddleware' => true,

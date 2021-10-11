@@ -1,1 +1,1 @@
-Your Slim Framework application's log files will be written to this directory.
+Les fichiers journaux de l'application Slim seront écrits dans ce répertoire. 
