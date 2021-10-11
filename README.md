@@ -4,7 +4,7 @@ Project stage
 
 1. Cloner le projet sur votre machine
 ```bash
-git clone 
+git clone https://github.com/ValerianGuzelbaba/Project-stage
 ```
 
 2. Créer une bdd Mysql en local et importer le fichier `db/schema/gestform.sql`
