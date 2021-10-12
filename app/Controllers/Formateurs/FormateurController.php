@@ -18,10 +18,6 @@ class FormateurController extends Controller
       $roles[] = $this->container->sentinel->findById($user->id)->roles()->get()->first();
     }
 
-    $this->container->view->getEnvironment()->addGlobal('listUsers', $users);
-    $this->container->view->getEnvironment()->addGlobal('getUsersRole', $roles);
-
-    return $this->view->render($response, 'admin/home.twig');
-  }
-  
+    return $this->view->render($response, 'formateur/home.twig');
+  }  
 }
