@@ -32,7 +32,7 @@ class UserActionController extends Controller
 
     $this->container->view->getEnvironment()->addGlobal('current', [
       'data' => $getCurrentUserData,
-      'role' => $getCurrentUserRole->slug
+      'roles' => $getCurrentUserRole->slug
     ]);
 
     return $this->view->render($response, 'admin/user/edit.twig');

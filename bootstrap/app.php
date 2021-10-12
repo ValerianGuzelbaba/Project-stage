@@ -4,7 +4,7 @@
 require __DIR__ . '/../vendor/autoload.php';
 
 // USE 3RD PARTY
-// use Respect\Validation\Validator as v;
+use Respect\Validation\Validator as v;
 
 // démarrer une nouvelle session
 session_start();
@@ -23,7 +23,7 @@ require __DIR__ . '/../app/middleware.php';
 $app->add($container->csrf);
 
 // ADD 3RD PARTY
-// v::with('App\\Validation\\Rules\\');
+v::with('App\\Validation\\Rules\\');
 
 // mise en place des routes
 require __DIR__ . '/../app/routes.php';

@@ -64,8 +64,8 @@ class AuthController extends Controller
 
     $user = $this->container->sentinel->registerAndActivate($credentials);
 
-    $role = $this->container->sentinel->findRoleByName('User');
-    $role->users()->attach($user);
+    $role = $this->container->sentinel->findRoleByName('Users');
+    $role->users()->attach($users);
 
     $this->flash->addMessage('succès', 'Vous avez bien été enregistré. Connecte-toi maintenant.');
     return $response->withRedirect($this->router->pathFor('user.login'));
