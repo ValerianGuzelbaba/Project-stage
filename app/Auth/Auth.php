@@ -14,11 +14,19 @@ class Auth
   {
     $this->container = $container;
   }
-
+  // fonction pour reconnaître le user en tant qu'admin
   public function isAdmin()
   {
     if ($this->container->sentinel->getUser()) {
       return $this->container->sentinel->getUser()->inRole('admin');
+    }
+  }
+  
+  // fonction pour reconnaître le user en tant que formateur
+  public function isFormateur()
+  {
+    if ($this->container->sentinel->getUser()) {
+      return $this->container->sentinel->getUser()->inRole('formateur');
     }
   }
 

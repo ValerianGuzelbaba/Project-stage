@@ -24,11 +24,11 @@ $container['view'] = function($container) {
     'check' => $container->sentinel->check(),
     'user' => $container->sentinel->getUser(),
     'isAdmin' => $container->auth->isAdmin(),
-    'getRoles' => $container->auth->roles()
+    'getRoles' => $container->auth->roles(),
+    'isFormateur' => $container->auth->isFormateur()
   ]);
 
   $view->getEnvironment()->addGlobal('flash', $container->flash);
-
   return $view;
 };
 
@@ -46,7 +46,7 @@ $container['flash'] = function($container) {
 $container['csrf'] = function($container) {
   return new \Slim\Csrf\Guard;
 };
-
+// mot de passe crypté dans la base de données
 $container['hasher'] = function ($container) {
     return new Cartalyst\Sentinel\Hashing\BcryptHasher;
 };
@@ -72,14 +72,18 @@ $container['sentinel'] = function ($container) {
 $container['validator'] = function($container) {
   return new App\Validation\Validator;
 };
-
+//mise en place du container d'authenfication
 $container['auth'] = function($container) {
   return new App\Auth\Auth($container);
 };
 
-// controller
+//mise en place des différents containers controller
 $container['HomeController'] = function($container) {
   return new \App\Controllers\HomeController($container);
+};
+
+$container['FormateurController'] = function($container) {
+  return new \App\Controllers\Formateurs\FormateurController($container);
 };
 
 $container['AuthController'] = function($container) {
