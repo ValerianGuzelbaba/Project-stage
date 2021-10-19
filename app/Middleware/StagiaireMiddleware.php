@@ -2,16 +2,16 @@
 
 namespace App\Middleware;
 
-class FormateurMiddleware extends Middleware
+class StagiaireMiddleware extends Middleware
 {
-  // paramètre de vérification du rôle, si non formateur alors, retour à la page d'accueil
+  // paramètre de vérification du rôle, si non stagiaire alors, retour à la page d'accueil
   public function __invoke($request, $response, $next)
   {
     if ($this->container->sentinel->getUser()) {
-      $isFormateur = $this->container->sentinel->getUser()->inRole('formateur');
+      $isStagiaire = $this->container->sentinel->getUser()->inRole('stagiaire');
     }
 
-    if (!$isFormateur) {
+    if (!$isStagiaire) {
       $this->container->flash->addMessage('erreur', 'Vous n\'avez pas les accès pour voir cette page.');
       return $response->withRedirect($this->container->router->pathFor('home'));
     }

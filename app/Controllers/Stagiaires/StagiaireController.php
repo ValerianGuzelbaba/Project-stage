@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Controllers\Formateurs;
+namespace App\Controllers\Stagiaires;
 
 use App\Models\User;
 use App\Controllers\Controller;
 use Slim\Views\Twig as View;
 
-class FormateurController extends Controller
+class StagiaireController extends Controller
 {
-  // fonction pour définir la réponse de la page une fois connecté en tant que formateur
+  // fonction pour définir la réponse de la page une fois connecté en tant que stagiaire
   public function index($request, $response)
   {
     $users = User::all();
@@ -18,6 +18,6 @@ class FormateurController extends Controller
       $roles[] = $this->container->sentinel->findById($user->id)->roles()->get()->first();
     }
 
-    return $this->view->render($response, 'formateur/home.twig');
+    return $this->view->render($response, 'stagiaire/home.twig');
   }  
 }

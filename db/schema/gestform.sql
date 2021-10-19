@@ -670,12 +670,21 @@ CREATE PROCEDURE `MAJ_formation`(IN `p_id_module` INT)
 BEGIN
       DECLARE done INT DEFAULT 0;
       DECLARE id_formation INTEGER;
-      DECLARE cur CURSOR FOR SELECT `formation_module`.`id_formation` FROM `modules`, `formation_module` WHERE `modules`.`id_module` = p_id_module AND `modules`.`id_module` = `formation_module`.`id_module`;
+      DECLARE cur CURSOR FOR 
+        SELECT `formation_module`.`id_formation` 
+        FROM `modules`, `formation_module` WHERE `modules`.`id_module` = p_id_module 
+        AND `modules`.`id_module` = `formation_module`.`id_module`;
       DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1;
       OPEN cur;
       label: LOOP
       FETCH cur INTO id_formation;
-      UPDATE `formations` SET `duree_formation` = (SELECT SUM(`modules`.`duree_module`) FROM `modules`, `formation_module` WHERE `modules`.`id_module` = `formation_module`.`id_module`     AND  `formation_module`.`id_formation` = id_formation) WHERE `formations`.`id_formation` = id_formation;
+        UPDATE `formations` 
+        SET `duree_formation` = 
+          (SELECT SUM(`modules`.`duree_module`) 
+          FROM `modules`, `formation_module` 
+          WHERE `modules`.`id_module` = `formation_module`.`id_module`    
+          AND  `formation_module`.`id_formation` = id_formation) 
+          WHERE `formations`.`id_formation` = id_formation;
       IF done = 1 THEN LEAVE label;
       END IF;
       END LOOP;

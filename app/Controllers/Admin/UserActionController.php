@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Roles;
 use App\Controllers\Controller;
 use Slim\Views\Twig as View;
+use Respect\Validation\Validator as v;
 
 class UserActionController extends Controller
 {
@@ -32,7 +33,7 @@ class UserActionController extends Controller
 
     $this->container->view->getEnvironment()->addGlobal('current', [
       'data' => $getCurrentUserData,
-      'roles' => $getCurrentUserRole->slug
+      'role' => $getCurrentUserRole
     ]);
 
     return $this->view->render($response, 'admin/user/edit.twig');
@@ -64,11 +65,49 @@ class UserActionController extends Controller
 
     $role = $this->container->sentinel->findRoleBySlug($request->getParam('role'));
     $role->users()->attach($getCurrentUserData);
+    
 
     // mise à jour de l'utilisateur dans la base de données
     $this->container->sentinel->update($getCurrentUserData, $credentials);
 
     $this->flash->addMessage('succès', "Les détails ont bien été changés.");
     return $response->withRedirect($this->router->pathFor('admin.user.edit', [ 'uid' => $arguments['uid'] ]));
+  }
+
+  public function getRegister($request, $response)
+  {
+    return $this->view->render($response, 'admin/user/register.twig');
+  }
+
+  public function postRegister($request, $response)
+  {
+    $credentials = [
+      'username' => $request->getParam('username'),
+      'displayname' => $request->getParam('displayname'),
+      'email' => $request->getParam('email'),
+      'telephone' => $request->getParam('telephone'),
+      'naissance' => $request->getParam('naissance'),
+      'adresse' => $request->getParam('adresse'),
+      'password' => $request->getParam('password')
+    ];
+
+    $validation = $this->validator->validate($request, [
+      'username' => v::noWhitespace()->notEmpty()->userAvailable(),
+      'email' => v::noWhitespace()->notEmpty()->emailAvailable(),
+      'password' => v::noWhitespace()->notEmpty(),
+      'telephone' => v::noWhitespace()->notEmpty(),
+    ]);
+
+    if ($validation->failed()) {
+      return $response->withRedirect($this->router->pathFor('admin.user.register'));
+    }
+
+    $user = $this->container->sentinel->registerAndActivate($credentials);
+
+    $role = $this->container->sentinel->findRoleByName('User');
+    // $role->users()->attach($user);
+
+    $this->flash->addMessage('succès', 'Vous avez bien enregistré l\'utilisateur.');
+    return $response->withRedirect($this->router->pathFor('admin.index'));
   }
 }

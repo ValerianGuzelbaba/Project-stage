@@ -30,6 +30,13 @@ class Auth
     }
   }
 
+  public function isStagiaire()
+  {
+    if ($this->container->sentinel->getUser()) {
+      return $this->container->sentinel->getUser()->inRole('stagiaire');
+    }
+  }
+
   public function roles()
   {
     $roles = Roles::all();

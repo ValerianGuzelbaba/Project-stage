@@ -9,7 +9,7 @@ use Respect\Validation\Validator as v;
 // démarrer une nouvelle session
 session_start();
 
-// mise en place de l'application
+// mise en place la connexion à la base de données
 $settings = require __DIR__ . '/../config/appConfig.php';
 $app = new\Slim\App($settings);
 

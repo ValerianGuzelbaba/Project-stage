@@ -10,7 +10,7 @@ class AuthController extends Controller
 {
   public function getLogin($request, $response)
   {
-    return $this->view->render($response, 'user/login.twig');
+    return $this->view->render($response, 'templates/login.twig');
   }
 
   public function postLogin($request, $response)
@@ -27,6 +27,31 @@ class AuthController extends Controller
       return $response->withRedirect($this->router->pathFor('user.login'));
     } else {
       $this->container->sentinel->login($attempt);
+      
+      if ($this->container->sentinel->getUser()) {
+        $isAdmin = $this->container->sentinel->getUser()->inRole('admin');
+      }
+      
+      if($isAdmin){
+        return $response->withRedirect($this->router->pathFor('admin.index'));
+      }
+
+      if ($this->container->sentinel->getUser()) {
+        $isFormateur = $this->container->sentinel->getUser()->inRole('formateur');
+      }
+      
+      if($isFormateur){
+        return $response->withRedirect($this->router->pathFor('formateur.index'));
+      }
+
+      if ($this->container->sentinel->getUser()) {
+        $isStagiaire = $this->container->sentinel->getUser()->inRole('stagiaire');
+      }
+      
+      if($isStagiaire){
+        return $response->withRedirect($this->router->pathFor('stagiaire.index'));
+      }
+
       return $response->withRedirect($this->router->pathFor('home'));
     }
   }
@@ -35,39 +60,5 @@ class AuthController extends Controller
   {
     $this->container->sentinel->logout();
     return $response->withRedirect($this->router->pathFor('home'));
-  }
-
-  public function getRegister($request, $response)
-  {
-    return $this->view->render($response, 'user/register.twig');
-  }
-
-  public function postRegister($request, $response)
-  {
-    $credentials = [
-      'username' => $request->getParam('username'),
-      'displayname' => $request->getParam('displayname'),
-      'email' => $request->getParam('email'),
-      'password' => $request->getParam('password')
-    ];
-
-    $validation = $this->validator->validate($request, [
-      'username' => v::noWhitespace()->notEmpty()->userAvailable(),
-      'email' => v::noWhitespace()->notEmpty()->emailAvailable(),
-      'password' => v::noWhitespace()->notEmpty(),
-      // 'password_confirm' => v::noWhitespace()->notEmpty() TODO
-    ]);
-
-    if ($validation->failed()) {
-      return $response->withRedirect($this->router->pathFor('user.register'));
-    }
-
-    $user = $this->container->sentinel->registerAndActivate($credentials);
-
-    $role = $this->container->sentinel->findRoleByName('Users');
-    $role->users()->attach($users);
-
-    $this->flash->addMessage('succès', 'Vous avez bien été enregistré. Connecte-toi maintenant.');
-    return $response->withRedirect($this->router->pathFor('user.login'));
   }
 }
