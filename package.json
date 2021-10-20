@@ -1,0 +1,19 @@
+{
+  "name": "project-stage",
+  "version": "1.0.0",
+  "description": "Project stage",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ValerianGuzelbaba/Project-stage.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ValerianGuzelbaba/Project-stage/issues"
+  },
+  "homepage": "https://github.com/ValerianGuzelbaba/Project-stage#readme"
+}
