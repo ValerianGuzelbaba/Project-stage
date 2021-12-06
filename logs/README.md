@@ -1,1 +1,0 @@
-Les fichiers journaux de l'application Slim seront écrits dans ce répertoire. 
